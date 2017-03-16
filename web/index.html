@@ -9,24 +9,24 @@
    
    <div id="app" class="main">
       
-           <ul class="chat">
-               <li v-for="message in messages" >{{ message.message }}<hr></li>
+           <ul id="wait" class="chat">
+               <li @MutationObserver="iAmHere" v-for="message in messages">{{ message.message }}<hr></li>
            </ul>
         <form>
-               <input class="inp" v-model="message" @blur="autoFocus" v-focus type="text">
+               <input id="inp" class="inp" v-model="message" @blur="autoFocus" v-focus type="text">
                <button @click.prevent = "onClick">Отправить</button>
        </form>
    </div>
-   
+   <br>
+   <br>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.0/vue.js"></script>
     <script>
-        
 
-        Vue.directive('focus', {
-          inserted: function (el) {
-            el.focus()
-          }
-        })
+                Vue.directive('focus', {
+                  inserted: function (el) {
+                    el.focus();
+                  }
+                })
         
        new Vue({
            
@@ -37,16 +37,20 @@
                     this.messages.push({message:"Я:  "+this.message});
                     this.getPost();
                     this.message = "";
+                    this.$el.childNodes[2].scrollIntoView(true);
                    }
                },
                
                autoFocus: function(){
                    this.$el.childNodes[2]["0"].focus();
                },
+               
+               iAmHere: function() {
+                   console.log("я тут");
+               },
                    
               getPost: function(){
                 this.$http.post('/api/get-answer', 'q='+this.message, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(function(resp){
-                    //console.log(resp.body.a);
                     this.messages.push({message:"Кабзон:  " + resp.body.a});
                 }, function(err){
                     console.log(err);
@@ -63,6 +67,28 @@
                 ]
            }
        })
+       
+       // select the target node
+        var target = document.getElementById('wait');
+        var input = document.getElementById('inp');
+
+        // create an observer instance
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            console.log(mutation.type);
+            input.scrollIntoView(true);
+          });    
+        });
+
+        // configuration of the observer:
+        var config = { attributes: true, childList: true, characterData: true };
+
+        // pass in the target node, as well as the observer options
+        observer.observe(target, config);
+
+        // later, you can stop observing
+        //observer.disconnect();
+       
     </script>
     
     <script src="https://cdn.jsdelivr.net/vue.resource/1.2.1/vue-resource.min.js"></script>

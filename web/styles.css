@@ -17,7 +17,7 @@ ul {
 form {
     list-style: none;
     width: 600px;
-    margin: 10px auto 0;
+    margin: 10px auto;
     padding: 6px 0;
     border-radius: 10px;
     border: 0px solid #cccccc;
@@ -41,7 +41,7 @@ input[type="text"] {
     width: 400px;
     font-size: 30px;
     font-weight: 200;
-    color: #cccccc
+    color: #cccccc;
     border: 0px solid #cccccc;
     outline: none;
     background-color: #FFF4C7;
