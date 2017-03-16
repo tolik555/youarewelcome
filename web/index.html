@@ -13,13 +13,20 @@
                <li v-for="message in messages" >{{ message.message }}<hr></li>
            </ul>
         <form>
-               <input class="inp" v-model="message" type="text" autofocus>
+               <input class="inp" v-model="message" @blur="autoFocus" v-focus type="text">
                <button @click.prevent = "onClick">Отправить</button>
        </form>
    </div>
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.0/vue.js"></script>
     <script>
+        
+
+        Vue.directive('focus', {
+          inserted: function (el) {
+            el.focus()
+          }
+        })
         
        new Vue({
            
@@ -31,6 +38,10 @@
                     this.getPost();
                     this.message = "";
                    }
+               },
+               
+               autoFocus: function(){
+                   this.$el.childNodes[2]["0"].focus();
                },
                    
               getPost: function(){
@@ -53,6 +64,7 @@
            }
        })
     </script>
+    
     <script src="https://cdn.jsdelivr.net/vue.resource/1.2.1/vue-resource.min.js"></script>
 </body>
 </html>
