@@ -25,7 +25,11 @@ form {
 
 li {
     display: block;
+    width: 500px;
+    margin: 0 auto;
     padding: 20px 30px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 li:last-child {
