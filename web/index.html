@@ -13,7 +13,7 @@
                <li v-for="message in messages" >{{ message.message }}<hr></li>
            </ul>
         <form>
-               <input class="inp" v-model="message" type="text">
+               <input class="inp" v-model="message" type="text" autofocus>
                <button @click.prevent = "onClick">Отправить</button>
        </form>
    </div>
@@ -29,6 +29,7 @@
                    if(this.message){
                     this.messages.push({message:"Я:  "+this.message});
                     this.getPost();
+                    this.message = "";
                    }
                },
                    
