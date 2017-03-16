@@ -10,7 +10,7 @@
    <div id="app" class="main">
       
            <ul id="wait" class="chat">
-               <li @MutationObserver="iAmHere" v-for="message in messages">{{ message.message }}<hr></li>
+               <li v-for="message in messages">{{ message.message }}<hr></li>
            </ul>
         <form>
                <input id="inp" class="inp" v-model="message" @blur="autoFocus" v-focus type="text">
@@ -33,7 +33,7 @@
            el: "#app",
            methods: {
                onClick: function(){
-                   if(this.message){
+                   if(this.message.trim()){
                     this.messages.push({message:"Я:  "+this.message});
                     this.getPost();
                     this.message = "";
@@ -42,11 +42,7 @@
                },
                
                autoFocus: function(){
-                   this.$el.childNodes[2]["0"].focus();
-               },
-               
-               iAmHere: function() {
-                   console.log("я тут");
+                   document.getElementById('inp').focus();
                },
                    
               getPost: function(){
@@ -67,7 +63,7 @@
                 ]
            }
        })
-       
+       // следим за изменениями дом дерева и реагируем на их изменения
        // select the target node
         var target = document.getElementById('wait');
         var input = document.getElementById('inp');
@@ -75,9 +71,8 @@
         // create an observer instance
         var observer = new MutationObserver(function(mutations) {
           mutations.forEach(function(mutation) {
-            console.log(mutation.type);
             input.scrollIntoView(true);
-          });    
+          });
         });
 
         // configuration of the observer:
